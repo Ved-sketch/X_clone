@@ -1,6 +1,7 @@
 import {Link} from "react-router"
 import LeftPanel from "../Components/LeftPanel"
 import RightPanel from "../Components/RightPanel";
+import NewPost from "../Components/NewPost";
 
 const HomePage = () => {
     
@@ -20,6 +21,8 @@ const HomePage = () => {
                             <Link to={"/home/following"}>Following</Link>
                         </div>
                     </div>
+
+                    <NewPost/>
                 </div>
                 
                 {/*Right side */}
