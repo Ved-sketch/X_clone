@@ -11,13 +11,31 @@ const Posts = () => {
             if (!response.ok) throw new Error('Failed to fetch posts');
             const data = await response.json();
             setPosts(data);
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Error fetching posts:", error);
         } finally {
             setIsLoading(false);
         }
-    }
+    };
+
+    const handleLike = async (postId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/x/post/${postId}/like`, {
+                method: 'POST',
+            });
+            if (!response.ok) throw new Error('Failed to like post');
+            const data = await response.json();
+
+            // Update local state with new like count
+            setPosts(prev =>
+                prev.map(post =>
+                    post._id === postId ? { ...post, likes: data.likes } : post
+                )
+            );
+        } catch (error) {
+            console.error("Error liking post:", error);
+        }
+    };
 
     useEffect(() => {
         handleFetch();
@@ -28,7 +46,7 @@ const Posts = () => {
             <div className="flex justify-center p-10">
                 <span className="loading loading-spinner loading-lg text-primary"></span>
             </div>
-        )
+        );
     }
 
     if (posts.length === 0) {
@@ -36,7 +54,7 @@ const Posts = () => {
             <div className="p-10 text-center text-gray-500">
                 No posts yet. Be the first to post!
             </div>
-        )
+        );
     }
 
     return (
@@ -95,14 +113,15 @@ const Posts = () => {
                                         <span className="text-sm">{post.retweets || 0}</span>
                                     </button>
 
-                                    <button className="hover:text-pink-500 flex items-center gap-1 group transition-colors"
-                                        onClick={handleLike}
-                                    >
-                                        <div className="p-2 group-hover:bg-pink-500/10 rounded-full">
-                                            <Heart size={18} />
-                                        </div>
-                                        <span className="text-sm">{post.likes}</span>
-                                    </button>
+                                <button
+                                    onClick={() => handleLike(post._id)}
+                                    className="hover:text-pink-500 flex items-center gap-1 group transition-colors"
+                                >
+                                    <div className="p-2 group-hover:bg-pink-500/10 rounded-full">
+                                        <Heart size={18} />
+                                    </div>
+                                    <span className="text-sm">{post.likes || 0}</span>
+                                </button>
 
                                     <button className="hover:text-sky-500 flex items-center gap-1 group transition-colors">
                                         <div className="p-2 group-hover:bg-sky-500/10 rounded-full">
@@ -123,7 +142,7 @@ const Posts = () => {
                 );
             })}
         </div>
-    )
-}
+    );
+};
 
 export default Posts;
