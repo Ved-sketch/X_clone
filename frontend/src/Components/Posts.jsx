@@ -18,24 +18,24 @@ const Posts = () => {
         }
     };
 
-    const handleLike = async (postId) => {
-        try {
-            const response = await fetch(`http://localhost:3000/x/post/${postId}/like`, {
-                method: 'POST',
-            });
-            if (!response.ok) throw new Error('Failed to like post');
-            const data = await response.json();
+    // const handleLike = async (postId) => {
+    //     try {
+    //         const response = await fetch(`http://localhost:3000/x/post/${postId}/like`, {
+    //             method: 'POST',
+    //         });
+    //         if (!response.ok) throw new Error('Failed to like post');
+    //         const data = await response.json();
 
-            // Update local state with new like count
-            setPosts(prev =>
-                prev.map(post =>
-                    post._id === postId ? { ...post, likes: data.likes } : post
-                )
-            );
-        } catch (error) {
-            console.error("Error liking post:", error);
-        }
-    };
+    //         // Update local state with new like count
+    //         setPosts(prev =>
+    //             prev.map(post =>
+    //                 post._id === postId ? { ...post, likes: data.likes } : post
+    //             )
+    //         );
+    //     } catch (error) {
+    //         console.error("Error liking post:", error);
+    //     }
+    // };
 
     useEffect(() => {
         handleFetch();
