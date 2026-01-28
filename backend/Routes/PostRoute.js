@@ -11,6 +11,6 @@ router.get("/", getPosts);
 router.post("/like/:postId",updateLikes);
 
 // Like a specific post
-router.post("/:id/like", likePost);
+// router.post("/:id/like", likePost);
 
 export default router;
